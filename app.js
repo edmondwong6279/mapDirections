@@ -55,8 +55,7 @@ const stringToCoords = async (inputStrings) => {
     start.search = new URLSearchParams({access_token: token}).toString();
     end.search = new URLSearchParams({access_token: token}).toString();
 
-    startCoords = await fetcher(start);
-    endCoords = await fetcher(end);
+    const [startCoords, endCoords] = await Promise.all([fetcher(start), fetcher(end)]);
 
     return {
         startCoords: startCoords.features[0].geometry.coordinates,
