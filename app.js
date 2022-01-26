@@ -19,10 +19,14 @@ const express = require('express');
 const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
 const { URL, URLSearchParams } = require('url');
+const dotenv = require('dotenv');
+dotenv.config();
+
+console.log(process.env.ACCESS_TOKEN);
 
 const port = 3000;
-// Is this ok to be just kept in plain text in the js file?
-const token = 'pk.eyJ1IjoiZWQ2Mjc5IiwiYSI6ImNreXZtOGxqNjA4YTQyd28wcXY1NHR2c3YifQ.k7weORyzPXQkMIkoFH9AWg';
+// token is now in a .env file.
+const token = process.env.ACCESS_TOKEN;
 
 const app = express();
 
@@ -56,6 +60,8 @@ const stringToCoords = async (inputStrings) => {
     end.search = new URLSearchParams({access_token: token}).toString();
 
     const [startCoords, endCoords] = await Promise.all([fetcher(start), fetcher(end)]);
+
+    console.log(startCoords);
 
     return {
         startCoords: startCoords.features[0].geometry.coordinates,
